@@ -1,5 +1,5 @@
 %===============================================================================
-  function [theta mu sigma x_normalized J_history] = \
+  function [theta mu sigma x_normalized J_history] = ...
     linear_regression_train(x, y, alpha, lambda, numb_i)
 %-------------------------------------------------------------------------------
 % x      - training set.
