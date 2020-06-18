@@ -1,5 +1,10 @@
-% NORMAL EQUATION function.
+%===============================================================================
+  function [theta] = \
+    normal_equation(x, y)
+%-------------------------------------------------------------------------------
 % Closed-form solution to linear regression.
-function [theta] = normal_equation(X, y)
-    theta = pinv(X' * X) * X' * y;
+%-------------------------------------------------------------------------------
+
+  theta = pinv(x' * x) * x' * y;
+
 end

@@ -1,26 +1,35 @@
-% LINEAR REGRESSION function.
-function [theta mu sigma X_normalized J_history] = linear_regression_train(X, y, alpha, lambda, num_iterations)
-    % X - training set.
-    % y - training set output values.
-    % alpha - learning rate (gradient descent step size).
-    % lambda - regularization parameter.
-    % num_iterations - number of gradient descent steps.
+%===============================================================================
+  function [theta mu sigma x_normalized J_history] = \
+    linear_regression_train(x, y, alpha, lambda, numb_i)
+%-------------------------------------------------------------------------------
+% x      - training set.
+% y      - training set output values.
+% alpha  - learning rate (gradient descent step size).
+% lambda - regularization parameter.
+% numb_i - number of gradient descent steps.
+%-------------------------------------------------------------------------------
 
-    % Calculate the number of training examples.
-    m = size(y, 1);
+  % Calculate the number of training examples (1st dimension is number of rows)
+  m = size(y, 1);
 
-    % Calculate the number of features.
-    n = size(X, 2);
+  % Calculate the number of features (2nd dimension is number of columns)
+  n = size(x, 2);
 
-    % Normalize features.
-    [X_normalized mu sigma] = feature_normalize(X);
+  % Normalize features
+  [x_normalized mu sigma] = feature_normalize(x);
 
-    % Add a column of ones to X.
-    X_normalized = [ones(m, 1), X_normalized];
+  % Add a column of ones to x
+  x_normalized = [ones(m, 1), x_normalized];
 
-    % Initialize model parameters.
-    initial_theta = zeros(n + 1, 1);
+  % Initialize model parameters
+  initial_theta = zeros(n + 1, 1);
 
-    % Run gradient descent.
-    [theta, J_history] = gradient_descent(X_normalized, y, initial_theta, alpha, lambda, num_iterations);
+  % Run gradient descent
+  [theta, J_history] = gradient_descent(x_normalized,    \
+                                        y,               \
+                                        initial_theta,   \
+                                        alpha,           \
+                                        lambda,          \
+                                        numb_i);
+
 end

@@ -1,22 +1,41 @@
-% FEATURE NORMALIZE function.
-% Normalizes the features in X. Returns a normalized version of X where the mean value of 
-% each feature is 0 and the standard deviation is 1.
-function [X_normalized, mu, sigma] = feature_normalize(X)
-    X_normalized = X;
-    mu = zeros(1, size(X_normalized, 2));
-    sigma = zeros(1, size(X_normalized, 2));
+%===============================================================================
+  function [x_normalized, mu, sigma] = \
+    feature_normalize(x)
+%-------------------------------------------------------------------------------
+% Normalizes the features in x. Returns a normalized version of x where
+% the mean value of each feature is 0 and the standard deviation is 1.
+%-------------------------------------------------------------------------------
 
-    % Get average values for each feature (column) in X.
-    mu = mean(X_normalized);
+  % Calculate the number of features (number of columns in x)
+  n = size(x, 2);
 
-    % Calculate the standard deviation for each feature.
-    sigma = std(X_normalized);
+  % Initialize x_normalized to be the same as x
+  x_normalized = x;
 
-    % Subtract mean values from each feature (column) of every example (row)
-    % to make all features be spread around zero.
-    X_normalized = X_normalized - mu;
+  % Initialize average value and standard deviation
+  mu    = zeros(1, n);
+  sigma = zeros(1, n);
 
-    % Normalize each feature values for each example so that all features 
-    % are close to [-1:1] boundaries.
-    X_normalized = X_normalized ./ sigma;
+  % Get average values for each feature (column) in x.
+  % (Function "mean(A)" returns the mean of the elements of A
+  %  along the first array dimension whose size does not equal 1.
+  %  In this case, first dimension is through rows, hence "mean"
+  %  returns the average in each column.)
+  mu = mean(x_normalized);
+
+  % Calculate the standard deviation for each feature.
+  % (Function "std(A)" returns the standard deviation of the elements
+  %  of A along the first array dimension whose size does not equal 1.
+  %  In this case, first dimension is through rows, hence "std"
+  %  returns the standard deviation in each column.)
+  sigma = std(x_normalized);
+
+  % Subtract mean values from each feature (column) of every example (row)
+  % to make all features be spread around zero.
+  x_normalized = x_normalized - mu;
+
+  % Normalize each feature values for each example so that all features 
+  % are close to [-1:1] boundaries.
+  x_normalized = x_normalized ./ sigma;
+
 end
