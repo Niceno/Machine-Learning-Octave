@@ -1,0 +1,61 @@
+clear;
+
+%----------------------------------------
+% Define a non-linear scattered data set
+% x - features
+% y - results
+%----------------------------------------
+m = 64;
+r = rand(m,1);  % make it a vector (like a column)
+
+% Define data range
+x_min = -3;
+x_max = +3;
+x = [x_min : (x_max-x_min)/(m-1) : x_max]';  % also vector / column
+
+% Create data
+y = 2.0 + x + 0.5 * x.^2 ...  % this defines the shape of data
+  + 4.0 * (r-0.5);            % this adds some random noise on top
+
+%-------------------------------------------
+% Append the column with higher order terms
+%-------------------------------------------
+x_o = x;  % original vector
+for o = 2:1
+  x = [x x_o.^o];
+end
+
+% Plot the training data set
+scatter(x(:,1), y);
+title('Training Set');
+xlabel('Feature');
+ylabel('Results');
+hold;
+
+%---------------------------
+% Running linear regression
+%---------------------------
+fprintf('Running linear regression...\n');
+
+% Setup regularization parameter.
+lambda =   0;
+alpha  =   0.001;
+num_i  = 10000;
+[theta mu sigma x_normalized j_history] = ...
+  regression_train(x,                     ...
+                   y,                     ...
+                   alpha,                 ...
+                   lambda,                ...
+                   num_i);
+
+fprintf('- Initial cost:   %f\n', j_history(1));
+fprintf('- Optimized cost: %f\n', j_history(end));
+
+fprintf('- Theta (with normalization):\n');
+fprintf('-- %f\n', theta);
+fprintf('\n');
+
+% Check the solution you got
+x_h = [ones(m,1) x];
+y_h = hypothesis(x_normalized, theta);
+plot(x_h(:,2), y_h);
