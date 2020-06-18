@@ -17,12 +17,14 @@ x = [x_min : (x_max-x_min)/(m-1) : x_max]';  % also vector / column
 y = 2.0 + x + 0.5 * x.^2 ...  % this defines the shape of data
   + 4.0 * (r-0.5);            % this adds some random noise on top
 
+order = input ("Enter polynomial order: ")
+
 %-------------------------------------------
 % Append the column with higher order terms
 %-------------------------------------------
-x_o = x;  % original vector
-for o = 2:1
-  x = [x x_o.^o];
+xl = x;  % original linear vector
+for p = 2:order
+  x = [x xl.^p];
 end
 
 % Plot the training data set
@@ -35,7 +37,7 @@ hold;
 %---------------------------
 % Running linear regression
 %---------------------------
-fprintf('Running linear regression...\n');
+fprintf('Running regression...\n');
 
 % Setup regularization parameter.
 lambda =   0;
