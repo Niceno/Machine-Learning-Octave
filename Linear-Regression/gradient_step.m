@@ -1,5 +1,5 @@
 %===============================================================================
-  function [theta] = \
+  function [theta] = ...
     gradient_step(x, y, theta, alpha, lambda)
 %-------------------------------------------------------------------------------
 % Function performs one step of gradient descent for theta parameters.
