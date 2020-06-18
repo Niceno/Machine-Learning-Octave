@@ -1,5 +1,5 @@
 %===============================================================================
-  function [x_normalized, mu, sigma] = \
+  function [x_normalized, mu, sigma] = ...
     feature_normalize(x)
 %-------------------------------------------------------------------------------
 % Normalizes the features in x. Returns a normalized version of x where

@@ -1,5 +1,5 @@
 %===============================================================================
-  function [cost] = \
+  function [cost] = ...
     cost_function(x, y, theta, lambda)
 %-------------------------------------------------------------------------------
 % Shows how accurate our model is based on current model parameters.

@@ -25,11 +25,11 @@
   initial_theta = zeros(n + 1, 1);
 
   % Run gradient descent
-  [theta, J_history] = gradient_descent(x_normalized,    \
-                                        y,               \
-                                        initial_theta,   \
-                                        alpha,           \
-                                        lambda,          \
+  [theta, J_history] = gradient_descent(x_normalized,    ...
+                                        y,               ...
+                                        initial_theta,   ...
+                                        alpha,           ...
+                                        lambda,          ...
                                         numb_i);
 
 end
