@@ -57,7 +57,7 @@ _Usage examples: as a substitute of all other algorithms in general, image recog
 
 ## Machine Learning Map
 
-![Machine Learning Map](./images/machine-learning-map.png)
+![Machine Learning Map](./Images/machine-learning-map.png)
 
 The source of the following machine learning topics map is [this wonderful blog post](https://vas3k.ru/blog/machine_learning/)
 
@@ -101,4 +101,4 @@ exit
 
 Also be aware that demo scripts opens additional window with charts and other graphical information that is related to the running algorithm. You may find screenshots of the window that each demo will render for you on the dedicated README files for each machine learning algorithm.
 
-![Demos](./images/demos.png)
+![Demos](./Images/demos.png)
