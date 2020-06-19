@@ -87,13 +87,15 @@ fprintf('Plotting normalized training data...\n\n');
 % Start drawing in second sector.
 subplot(2, 2, 2);
 
-scatter3(x_normalized(:, 2), x_normalized(:, 3), y, [], y(:), 'o');
+scatter3(x_normalized(:, 1), x_normalized(:, 2), y, [], y(:), 'o');
 title('Normalized Training Set');
 xlabel('Normalized Size');
 ylabel('Normalized Rooms');
 zlabel('Price');
 
-% Draw gradient descent progress ------------------------------------------------
+%--------------------------------
+% Draw gradient descent progress
+%--------------------------------
 fprintf('Plot gradient descent progress...\n\n');
 
 % Continue plotting to the right area.
@@ -104,27 +106,30 @@ xlabel('Iteration');
 ylabel('J(\theta)');
 title('Gradient Descent Progress');
 
-% Plotting hypothesis plane on top of training set -----------------------------
+%--------------------------------------------------
+% Plotting hypothesis plane on top of training set
+%--------------------------------------------------
 fprintf('Plotting hypothesis plane on top of training set...\n\n');
 
 % Get apartment size and rooms boundaries.
-apt_sizes = x_normalized(:, 2);
-apt_rooms = x_normalized(:, 3);
-apt_size_range = linspace(min(apt_sizes), max(apt_sizes), 10);
-apt_rooms_range = linspace(min(apt_rooms), max(apt_rooms), 10);
+x1  = x_normalized(:, 1);
+x2  = x_normalized(:, 2);
+xn1 = linspace(min(x1), max(x1), 10);
+xn2 = linspace(min(x2), max(x2), 10);
 
-% Calculate predictions for each possible combination of rooms number and appartment size.
-apt_prices = zeros(length(apt_size_range), length(apt_rooms_range));
-for apt_size_index = 1:length(apt_size_range)
-  for apt_room_index = 1:length(apt_rooms_range)
-      x = [1, apt_size_range(apt_size_index), apt_rooms_range(apt_room_index)];
-      apt_prices(apt_size_index, apt_room_index) = hypothesis(x, theta);
+% Calculate predictions for each possible combi-
+% nation of rooms number and appartment size.
+y_h = zeros(length(xn1), length(xn2));
+for i1 = 1:length(xn1)
+  for i2 = 1:length(xn2)
+      x = [1, xn1(i1), xn2(i2)];
+      y_h(i1, i2) = hypothesis(x, theta);
   end
 end
 
 % Plot the plane on top of training data to see how it feets them.
 subplot(2, 2, 2);
 hold on;
-mesh(apt_size_range, apt_rooms_range, apt_prices);
+mesh(xn1, xn2, y_h);
 legend('Training Examples', 'Hypothesis Plane')
 hold off;
