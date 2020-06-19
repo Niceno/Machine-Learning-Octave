@@ -8,44 +8,51 @@ clear;
 %
 %----------------------------------------
 m = 512;
-r = rand(m,1);  % make random numbers a vector (like a column)
+n =   2;
+r = rand(m, 1);  % make random numbers a vector (like a column)
 
 %-----------------
 % Define features
 %-----------------
 
 % Define data ranges
-x1_min = -3;  x2_min = -4;
-x1_max = +3;  x2_max = +4;
+x_min = [-3, -4];
+x_max = [+3, +4];
 
 % Assign values in given data range ...
-x1 = [x1_min : (x1_max-x1_min)/(m-1) : x1_max]';  % also vector / column
-x2 = [x2_min : (x2_max-x2_min)/(m-1) : x2_max]';  % also vector / column
+x = zeros(m, n);
+for j = 1 : n
+  x(:,j) = [x_min(j) : (x_max(j)-x_min(j))/(m-1) : x_max(j)]';
+end
 
 % ... and shuffle them to make it more interesting
-x1 = x1(randperm(numel(x1)));
-x2 = x2(randperm(numel(x2)));
+for j = 1 : n
+  x(:,j) = x( randperm( size(x,1) ), j);
+end
 
 %-----------------------
 % Create data (results)
 %-----------------------
-y = 2.0             ...
-  + 1.0 * x1        ...
-  + 0.5 * x1.^2     ...
-  - 0.2 * x2.^2     ...
-  + 4.0 * (r-0.5);            % this adds some random noise on top
-scatter3(x1, x2, y);
+y = 2.0                     ...
+  + 1.0 * x(:,1)            ...
+  + 0.5 * x(:,1).^2         ...
+% - 2.0 * cos(x(:,2))       ...
+  - 0.2 * x(:,2).^2         ...
+  + 1.5 * x(:,1) .* x(:,2)  ...  % add a mixed term
+  + 4.0 * (r-0.5);               % this adds some random noise on top
+scatter3(x(:,1), x(:,2), y);
 
 order = input ("Enter polynomial order: ")
 
 %-------------------------------------------
 % Append the column with higher order terms
 %-------------------------------------------
-xl1 = x1;       % original linear vectors
-xl2 = x2;       % original linear vectors
-x = [xl1 xl2];  % two features side by side in first order
+xl = x;  % original linear vectors
 for p = 2 : order
-  x = [x  xl1.^p  xl2.^p];
+  x = [x  xl(:,1).^p  xl(:,2).^p];              % straight terms
+  for q = 1 : p-1
+    x = [x  (xl(:,1).^(p-q)) .* (xl(:,2).^q)];  % mixed terms
+  end
 end
 
 % Plot the training data set
@@ -95,17 +102,17 @@ scatter3(x(:,1), x(:,2), y_h);
 %----------------------------------
 % Plot in a more sophisticated way
 %----------------------------------
-x1s = sort(x1);  x1s = x1s(1:ceil(m/21):end);
-x2s = sort(x2);  x2s = x2s(1:ceil(m/21):end);
-[x1p, x2p] = meshgrid(x1s, x2s);
-M = size(x1s,1);
-x1s = reshape(x1p, M*M, 1);
-x2s = reshape(x2p, M*M, 1);
-xl1 = x1s;       % original linear vectors
-xl2 = x2s;       % original linear vectors
-xs = [xl1 xl2];  % two features side by side in first order
+xs = [sort(x(:,1)) sort(x(:,2))];       % sorted features
+xt(:,1:2) = xs(1:ceil(m/41):end, 1:2);  % sorted and sifted features
+[x1p, x2p] = meshgrid(xt(:,1), xt(:,2));
+M = size(xt,1);
+xs = [reshape(x1p, M*M, 1) reshape(x2p, M*M, 1)];
+xl = xs;                                % store original linear vectors
 for p = 2 : order
-  xs = [xs  xl1.^p  xl2.^p];
+  xs = [xs  xl(:,1).^p  xl(:,2).^p];              % straight terms
+  for q = 1 : p-1
+    xs = [xs  (xl(:,1).^(p-q)) .* (xl(:,2).^q)];  % mixed terms
+  end
 end
 [x_normalized mu sigma] = feature_normalize(xs);
 y_h = hypothesis([ones(M*M,1) x_normalized], theta);
