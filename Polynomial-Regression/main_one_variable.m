@@ -1,19 +1,28 @@
 clear;
 
 %----------------------------------------
+%
 % Define a non-linear scattered data set
 % x - features
 % y - results
+%
 %----------------------------------------
 m = 64;
 r = rand(m,1);  % make it a vector (like a column)
 
+%-----------------
+% Define features
+%-----------------
+
 % Define data range
 x_min = -3;
 x_max = +3;
+% Assign values in given data range ...
 x = [x_min : (x_max-x_min)/(m-1) : x_max]';  % also vector / column
 
-% Create data
+%-----------------------
+% Create data (results)
+%-----------------------
 y = 2.0 + x + 0.5 * x.^2 ...  % this defines the shape of data
   + 4.0 * (r-0.5);            % this adds some random noise on top
 
@@ -34,9 +43,11 @@ xlabel('Feature');
 ylabel('Results');
 hold;
 
-%---------------------------
-% Running linear regression
-%---------------------------
+%--------------------
+%
+% Running regression
+%
+%--------------------
 fprintf('Running regression...\n');
 
 % Setup regularization parameter.
@@ -57,6 +68,10 @@ fprintf('- Theta (with normalization):\n');
 fprintf('-- %f\n', theta);
 fprintf('\n');
 
+%----------------------------
+%
 % Check the solution you got
-y_h = hypothesis(x_normalized, theta);
+%
+%----------------------------
+y_h = hypothesis([ones(m,1) x_normalized], theta);
 plot(x(:,1), y_h);

@@ -14,7 +14,7 @@ r = rand(m,1);  % make random numbers a vector (like a column)
 % Define features
 %-----------------
 
-% Define data range
+% Define data ranges
 x1_min = -3;  x2_min = -4;
 x1_max = +3;  x2_max = +4;
 
