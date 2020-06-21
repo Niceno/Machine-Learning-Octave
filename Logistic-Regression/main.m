@@ -5,18 +5,38 @@
 % Clear variables and a screen.
 clear; close all; clc;
 
-%------------------------
-% Load the training data
-%------------------------
-fprintf('Loading the data...\n\n');
+%----------------------------------------
+%
+% Define a non-linear scattered data set
+% x - features
+% y - results
+%
+%----------------------------------------
+m = 512;
+n =   2;
 
-data = load('microchips_tests.csv');
+%-----------------
+% Define features
+%-----------------
 
-%----------------------------------------------
-% Split data into features (x) and results (y)
-%----------------------------------------------
-x = data(:, 1:2);
-y = data(:, 3);
+% Define data ranges
+x_min = [-1, -1];
+x_max = [+1, +1];
+
+% Assign values in given data range ...
+x = zeros(m, n);
+for j = 1 : n
+  x(:,j) = [x_min(j) : (x_max(j)-x_min(j))/(m-1) : x_max(j)]';
+end
+
+% ... and shuffle them to make it more interesting
+for j = 1 : n
+  x(:,j) = x( randperm( size(x,1) ), j);
+end
+
+y = zeros(m,1);
+dist = sqrt((0.66*x(:,1)).^2 .+ x(:,2).^2);
+y = dist < 0.5;
 
 %--------------------
 % Plot training data
@@ -46,8 +66,9 @@ fprintf('Running logistic regression...\n\n');
 
 % Add more polynomial features in order to make
 % decision boundary to have more complex curve form.
-polynomial_degree = 8;
+polynomial_degree = 2;
 x = add_polynomial_features(x(:, 1), x(:, 2), polynomial_degree);
+size(x)
 
 % Run the regression.
 lambda = 0.1;
