@@ -12,30 +12,23 @@ clear; close all; clc;
 % y - results
 %
 %----------------------------------------
-m = 512;
-n =   2;
+m = 1024;
+n =    2;
 
 %-----------------
 % Define features
 %-----------------
 
 % Define data ranges
-x_min = [-1, -1];
-x_max = [+1, +1];
+x_min = -1;
+x_max = +1;
 
-% Assign values in given data range ...
-x = zeros(m, n);
-for j = 1 : n
-  x(:,j) = [x_min(j) : (x_max(j)-x_min(j))/(m-1) : x_max(j)]';
-end
-
-% ... and shuffle them to make it more interesting
-for j = 1 : n
-  x(:,j) = x( randperm( size(x,1) ), j);
-end
+x = [meshgrid(x_min : (x_max-x_min)/21 : x_max)(:) ...
+     meshgrid(x_min : (x_max-x_min)/21 : x_max)'(:)]
 
 y = zeros(m,1);
 dist = sqrt((0.66*x(:,1)).^2 .+ x(:,2).^2);
+% dist = sqrt(x(:,1).^2 .+ x(:,2).^2);
 y = dist < 0.5;
 
 %--------------------
@@ -49,10 +42,11 @@ negativeIndices = find(y == 0);
 
 % Plot examples.
 hold on;
+axis equal;
 plot(x(positiveIndices, 1), ...
-     x(positiveIndices, 2), 'k+', 'LineWidth', 2, 'MarkerSize', 7);
+     x(positiveIndices, 2), 'ko', 'MarkerFaceColor', 'b', 'MarkerSize', 8);
 plot(x(negativeIndices, 1), ...
-     x(negativeIndices, 2), 'ko', 'MarkerFaceColor', 'y', 'MarkerSize', 7);
+     x(negativeIndices, 2), 'ko', 'MarkerFaceColor', 'r', 'MarkerSize', 8);
 
 % Draw labels and Legend
 xlabel('x coordinate');
@@ -104,7 +98,7 @@ end
 
 % Plot z = 0
 % Notice you need to specify the range [0, 0]
-contour(u, v, z', [0, 0], 'LineWidth', 2);      % send transposed z
+contour(u, v, z', [0, 0], 'LineWidth', 4);      % send transposed z
 title(sprintf('lambda = %g', lambda));
 legend('y = 1', 'y = 0', 'Bubble surface');
 
