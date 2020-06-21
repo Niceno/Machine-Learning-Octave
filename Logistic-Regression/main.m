@@ -5,8 +5,8 @@
 % Clear variables and a screen.
 clear; close all; clc;
 
-POLY_DEGREE = 12;
-LAMBDA      = 0.1;
+POLY_DEGREE = 2;
+LAMBDA      = 1.0e-9;
 
 %----------------------------------------
 %
@@ -15,39 +15,38 @@ LAMBDA      = 0.1;
 % y - results
 %
 %----------------------------------------
-n = 2;
 
 %-----------------
 % Define features
 %-----------------
-load bubble_03.dat
-bubble_03 = flip(bubble_03);
+load bubble_05.dat
+bubble_05 = flip(bubble_05);
 
-% Define data ranges
-xmin  = [-1 -1];
-xmax  = [+1 +1];
+R = size(bubble_05);  % resolution of the input data
 
-x = [meshgrid(linspace(xmin(1), xmax(1), size(bubble_03, 1)))(:) ...
-     meshgrid(linspace(xmin(2), xmax(2), size(bubble_03, 2)))'(:)];
+x = [meshgrid(linspace(-1, 1, R(2)), linspace(-1,1,R(1)))(:)    ...
+     meshgrid(linspace(-1, 1, R(1)), linspace(-1,1,R(2)))'(:)]
 
-y = bubble_03(:);
+y = bubble_05(:);
 
 %--------------------
 % Plot training data
 %--------------------
 fprintf('Plotting the data...\n\n');
 
-% Find indices of positive and negative examples.
-positiveIndices = find(y == 1);
-negativeIndices = find(y == 0);
+% Find indices of ones and twos, discard zeroes
+ind_1 = find(y == 1);
+ind_2 = find(y == 2);
 
 % Plot examples.
 hold on;
 axis equal;
-plot(x(positiveIndices, 1), ...
-     x(positiveIndices, 2), 'ko', 'MarkerFaceColor', 'b', 'MarkerSize', 8);
-plot(x(negativeIndices, 1), ...
-     x(negativeIndices, 2), 'ko', 'MarkerFaceColor', 'r', 'MarkerSize', 8);
+plot(x(ind_1, 1), x(ind_1, 2), 'ko', 'MarkerFaceColor', 'b', 'MarkerSize', 8);
+plot(x(ind_2, 1), x(ind_2, 2), 'ko', 'MarkerFaceColor', 'r', 'MarkerSize', 8);
+
+x = x([ind_1; ind_2], :);
+y = y([ind_1; ind_2], :);
+y = y .- 1;
 
 % Draw labels and Legend
 xlabel('x coordinate');
@@ -79,14 +78,14 @@ fprintf('- Optimized cost: %f\n\n', J);
 fprintf('Plotting decision boundaries...\n\n');
 
 % Generate a grid range.
-M = 64;
-u = linspace(-1, 1, M);
-v = linspace(-1, 1, M);
+G = 64;
+u = linspace(-1, 1, G);
+v = linspace(-1, 1, G);
 z = zeros(length(u), length(v));
 
 % Evaluate z = (x * theta) over the grid
-for i = 1 : M
-  for j = 1 : M
+for i = 1 : G
+  for j = 1 : G
 
     % Add polinomials
     x = add_polynomial_features(u(i), v(j), polynomial_degree);
@@ -100,7 +99,7 @@ end
 % Plot z = 0
 % Notice you need to specify the range [0, 0]
 contour(u, v, z', [0, 0], 'LineWidth', 4);      % send transposed z
-title(sprintf('lambda = %g', lambda));
+title(sprintf('lambda = %g \n order = %g', LAMBDA, POLY_DEGREE));
 legend('y = 1', 'y = 0', 'Bubble surface');
 
 hold off;
