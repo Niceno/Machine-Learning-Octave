@@ -1,14 +1,21 @@
-% GRADIENT DESCENT function.
+%===============================================================================
+  function [theta, j, exit_flag] = ...
+    gradient_descent(x, y, theta, lambda)
+%-------------------------------------------------------------------------------
 % Iteratively optimizes theta model parameters.
-function [theta, J, exit_flag] = gradient_descent(X, y, theta, lambda)
-    % X - training set.
-    % y - training output values.
-    % theta - model parameters.
-    % lambda - regularization parameter.
+% x - training set.
+% y - training output values.
+% theta - model parameters.
+% lambda - regularization parameter.
+%-------------------------------------------------------------------------------
 
-    % Set Options
-    options = optimset('GradObj', 'on', 'MaxIter', 400);
+  % Set Options
+  options = optimset('GradObj', 'on', 'MaxIter', 1024);
 
-    % Optimize
-    [theta, J, exit_flag] = fminunc(@(t)(gradient_callback(X, y, t, lambda)), theta, options);
+  % Optimize
+  [theta, j, exit_flag] =                              ...
+     fminunc(@(t)(gradient_callback(x, y, t, lambda)), ...
+             theta,                                    ...
+             options);
+
 end
