@@ -13,7 +13,6 @@
 %
 % Output:
 % theta     - optimized theta parameters - (m x 1) vector.
-% J_history - the history cost function changes over iterations.
 %
 % Where:
 % m - number of training examples,
@@ -38,4 +37,4 @@
   % We should NOT regularize the parameter theta_zero.
   theta(1) = theta(1) - alpha * (1 / m) * (x(:, 1)' * difference)';
 
-end
+  end

@@ -7,4 +7,4 @@
 
   theta = pinv(x' * x) * x' * y;
 
-end
+  end

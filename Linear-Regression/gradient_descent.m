@@ -1,5 +1,5 @@
 %===============================================================================
-  function [theta, J_history] =  ...
+  function [theta, j_history] =  ...
     gradient_descent(x, y, theta, alpha, lambda, numb_i)
 %-------------------------------------------------------------------------------
 % Calculates what steps (deltas) should be taken for each
@@ -15,7 +15,7 @@
 %
 % Output:
 % theta - optimized theta parameters - (m x 1) vector.
-% J_history - the history cost function changes over iterations.
+% j_history - the history cost function changes over iterations.
 %
 % Where:
 % m  - number of training examples,
@@ -25,15 +25,15 @@
   % Get number of training examples.
   m = size(x, 1);
 
-  % Initialize J_history with zeros.
-  J_history = zeros(numb_i, 1);
+  % Initialize j_history with zeros.
+  j_history = zeros(numb_i, 1);
 
   for iteration = 1:numb_i
     % Perform a single gradient step on the parameter vector theta.
     theta = gradient_step(x, y, theta, alpha, lambda);
 
     % Save the cost J in every iteration
-    J_history(iteration) = cost_function(x, y, theta, lambda);
+    j_history(iteration) = cost_function(x, y, theta, lambda);
   end
 
-end
+  end

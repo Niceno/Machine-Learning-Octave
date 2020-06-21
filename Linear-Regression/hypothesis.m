@@ -17,4 +17,4 @@ function [predictions] = hypothesis(x, theta)
 
   predictions = x * theta;
 
-end
+  end

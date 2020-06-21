@@ -33,4 +33,4 @@
   % Calculate current predictions cost.
   cost = (1 / 2 * m) * (differences' * differences + regularization_param);
 
-end
+  end

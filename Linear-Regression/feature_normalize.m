@@ -35,4 +35,4 @@
   % values for each example so that features are close to [-1:1] boundaries.
   x_normalized = (x - mu) ./ sigma;
 
-end
+  end

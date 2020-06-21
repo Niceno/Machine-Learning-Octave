@@ -50,15 +50,15 @@ fprintf('Running linear regression...\n');
 lambda =  0;
 alpha  =  0.1;
 num_i  = 50;
-[theta mu sigma x_normalized J_history] = ...
+[theta mu sigma x_normalized j_history] = ...
   regression_train(x,                     ...
                    y,                     ...
                    alpha,                 ...
                    lambda,                ...
                    num_i);
 
-fprintf('- Initial cost: %f\n', J_history(1));
-fprintf('- Optimized cost: %f\n', J_history(end));
+fprintf('- Initial cost: %f\n', j_history(1));
+fprintf('- Optimized cost: %f\n', j_history(end));
 
 fprintf('- Theta (with normalization):\n');
 fprintf('-- %f\n', theta);
@@ -101,7 +101,7 @@ fprintf('Plot gradient descent progress...\n\n');
 % Continue plotting to the right area.
 subplot(2, 2, 3);
 
-plot(1:num_i, J_history);
+plot(1:num_i, j_history);
 xlabel('Iteration');
 ylabel('J(\theta)');
 title('Gradient Descent Progress');
