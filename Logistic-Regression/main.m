@@ -12,24 +12,22 @@ clear; close all; clc;
 % y - results
 %
 %----------------------------------------
-m = 1024;
-n =    2;
+n = 2;
 
 %-----------------
 % Define features
 %-----------------
+load bubble_03.dat
+bubble_03 = flip(bubble_03);
 
 % Define data ranges
-x_min = -1;
-x_max = +1;
+xmin  = [-1 -1];
+xmax  = [+1 +1];
 
-x = [meshgrid(x_min : (x_max-x_min)/21 : x_max)(:) ...
-     meshgrid(x_min : (x_max-x_min)/21 : x_max)'(:)]
+x = [meshgrid(linspace(xmin(1), xmax(1), size(bubble_03, 1)))(:) ...
+     meshgrid(linspace(xmin(2), xmax(2), size(bubble_03, 2)))'(:)];
 
-y = zeros(m,1);
-dist = sqrt((0.66*x(:,1)).^2 .+ x(:,2).^2);
-% dist = sqrt(x(:,1).^2 .+ x(:,2).^2);
-y = dist < 0.5;
+y = bubble_03(:);
 
 %--------------------
 % Plot training data
@@ -60,12 +58,12 @@ fprintf('Running logistic regression...\n\n');
 
 % Add more polynomial features in order to make
 % decision boundary to have more complex curve form.
-polynomial_degree = 2;
+polynomial_degree = 24;
 x = add_polynomial_features(x(:, 1), x(:, 2), polynomial_degree);
 size(x)
 
 % Run the regression.
-lambda = 0.1;
+lambda = 0.0;
 [theta, J, J_history, exit_flag] = ...
   logistic_regression_train(x, y, lambda);
 
