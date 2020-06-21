@@ -5,6 +5,9 @@
 % Clear variables and a screen.
 clear; close all; clc;
 
+POLY_DEGREE = 12;
+LAMBDA      = 0.1;
+
 %----------------------------------------
 %
 % Define a non-linear scattered data set
@@ -58,12 +61,12 @@ fprintf('Running logistic regression...\n\n');
 
 % Add more polynomial features in order to make
 % decision boundary to have more complex curve form.
-polynomial_degree = 24;
+polynomial_degree = POLY_DEGREE;
 x = add_polynomial_features(x(:, 1), x(:, 2), polynomial_degree);
 size(x)
 
 % Run the regression.
-lambda = 0.0;
+lambda = LAMBDA;
 [theta, J, J_history, exit_flag] = ...
   logistic_regression_train(x, y, lambda);
 
